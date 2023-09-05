@@ -67,7 +67,7 @@
     },
     "googleId": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "profilePicture": {
       "type": "string"
