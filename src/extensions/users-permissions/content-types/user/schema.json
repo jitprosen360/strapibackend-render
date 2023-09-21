@@ -77,6 +77,12 @@
       "relation": "oneToMany",
       "target": "api::order.order",
       "mappedBy": "user"
+    },
+    "avatarUrl": {
+      "type": "string"
+    },
+    "avatarId": {
+      "type": "biginteger"
     }
   }
 }

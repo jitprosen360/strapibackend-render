@@ -76,6 +76,8 @@ const handleStripeWebhook = async (ctx) => {
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
+const { getOrdersForSession } = require('../services/order');
+
 module.exports =  createCoreController("api::order.order", ({ strapi }) => ({
 
   before: {
@@ -152,6 +154,7 @@ module.exports =  createCoreController("api::order.order", ({ strapi }) => ({
         cancel_url: process.env.CLIENT_URL + "/failed",
         line_items: lineItems,
         metadata: {
+          userEmail: localUser.email,
           userId: localUser.id,
           totalAmount: totalAmount,
           productNames: productNames,
@@ -178,4 +181,43 @@ module.exports =  createCoreController("api::order.order", ({ strapi }) => ({
       return { error: error.message };
     }
   },
+
+  async find(ctx) {
+    const userEmail = ctx.query['user.email']; // Extract user email from query parameter
+  
+    try {
+      const data = await strapi.db.query("api::order.order").findMany({
+        where: { user: { email: userEmail } }, // Filter orders by user email
+      });
+  
+      return { data };
+    } catch (error) {
+      ctx.response.status = 500;
+      return error;
+    }
+  },
+
+  // async uploadAvatar(ctx) {
+  //   const { user } = ctx.state; // Assuming user is authenticated
+  //   const uploadedFile = ctx.request.files.file; // Assuming the upload field is named 'file'
+
+  //   if (!uploadedFile) {
+  //     ctx.response.status = 400;
+  //     ctx.response.body = { error: 'No file uploaded' };
+  //     return;
+  //   }
+
+  //   const uploadedFileName = uploadedFile.name;
+  //   const avatarUrl = `http://localhost:1337/uploads/${uploadedFileName}`;
+
+  //   // Assuming `user` is the current authenticated user
+  //   await strapi.query('user', 'users-permissions').update(
+  //     { id: user.id },
+  //     { avatarUrl }
+  //   );
+
+  //   ctx.response.body = { avatarUrl };
+  // },
+  
+
 }));

@@ -15,6 +15,11 @@ module.exports = createCoreRouter('api::order.order', ({ strapi }) => ({
       method: 'POST',
       path: '/stripe-webhook',
       handler: 'order.webhook',
+    },
+    {
+      "method": "GET",
+      "path": "/orders",
+      "handler": "order.find"
     }
   ],
 }));
