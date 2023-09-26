@@ -7,8 +7,8 @@ module.exports = [
         useDefaults: true,
         directives: {
           'connect-src': ["'self'", 'https:'],
-          'img-src': ["'self'", 'data:', 'blob:'],
-          'media-src': ["'self'", 'data:', 'blob:'],
+          'img-src': ["'self'", 'data:', 'blob:', 'https://strapiserverbackend.onrender.com'],
+          'media-src': ["'self'", 'data:', 'blob:', 'https://strapiserverbackend.onrender.com'],
           upgradeInsecureRequests: null,
         },
       },
